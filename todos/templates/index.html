@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        <div>
+            <h1>TODOS</h1>
+            <a href="{% url 'add' %}">Add a New Todo</a>
+        </div>
+        <div>
+            <div>
+                {% for x in todo_events %}
+                    <li>
+                        <div>
+                            <h3>{{x.task}}</h3>
+                            <p>{{x.description}}</p>
+                            <div>
+                                <p>created date : {{x.created_date}}</p>
+                                <p>due date : {{x.due_date}}</p>
+                            </div>
+                        </div>
+                        <div>
+                            {% if x.task_status %}
+                                <button>Completed</button>
+                            {% else %}
+                                <button>Pending</button>
+                            {% endif %}
+                            <a href="{% url 'update' x.id %}"><button>Update</button></a>
+                            <a href="{% url 'delete' x.id %}"><button>Delete</button></a>
+                        </div>
+                    </li>
+                    
+                {% endfor %}
+            </div>
+            
+        </div>
+    </ul>
+    
+</body>
+</html>
