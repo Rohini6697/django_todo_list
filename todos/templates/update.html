@@ -3,22 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <title>Document</title>
 </head>
-<body>
-    <form method="post">
+<body class="container d-flex justify-content-center">
+    <form method="post" class="d-flex justify-content-center align-items-center flex-column border border-3 p-4 gap-3 w-75 mt-5 border-primary rounded-5" >
         {% csrf_token %}
         <h1>Update Todo</h1>
-        <label>Task : </label>
-        <input type="text" name="task" value="todo.task">
-        <label>Description : </label>
-        <input type="text" name="description" value="todo.description">
-        <label>Due Date : </label>
-        <input type="date" name="due" value="todo.date">
-        <input type="checkbox" name="status" value="todo.status"><label>completed</label>
-        <button>Submit</button>
+        
+        <div class="w-75 d-flex flex-column">
+            <label>Task : </label>
+        </div>
+        <input type="text" name="task"  value="{{todo.task}} " class="w-75 border border-top-0 border-end-0 border-start-0 border-bottom border-1 border-primary">
+        <div class="w-75 d-flex flex-column">
+            <label>Description : </label>
+            
+        </div>
+        <input type="text" name="description" value="{{todo.description}}" class="w-75 border border-top-0 border-end-0 border-start-0 border-bottom border-1 border-primary">
+        <div class="w-75 d-flex flex-column">
+            <label>Due Date : </label>
+            
+        </div>
+        <input type="date" name="due" value="{{todo.due_date|date:'Y-m-d'}}" class="w-75 border border-top-0 border-end-0 border-start-0 border-bottom border-1 border-primary">
+        <div class="d-flex align-items-center gap-2">
+            <input type="checkbox" name="status" value="{{todo.task_status}}" ><label>completed</label>
+        </div>
+        <button class="w-25 bg-info rounded-5 border-0 text-white pt-1 pb-1">Submit</button>
+        <a href="{% url 'home' %}"><button class="bg-primary p-2 rounded-5 border-0 text-white">Back to Home</button></a>
     </form>
-    <a href="{% url 'home' %}"><button>Back to Home</button></a>
+    
     
     
 </body>
