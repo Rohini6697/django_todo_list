@@ -4,7 +4,11 @@ from .models import Events
 # Create your views here.
 def home(request):
     display_todos = Events.objects.all().values()
-    return render(request,'index.html',{'todo_events':display_todos})
+    false = Events.objects.all().filter(task_status = False).count()
+
+    return render(request,'index.html',{'todo_events':display_todos,
+                                        'false':false})
+
 def add(request):
     return render(request,'add.html')
 def add_todo(request):
