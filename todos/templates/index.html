@@ -28,17 +28,26 @@
                             <div class="d-flex gap-5">
                                 <p>created date : {{x.created_date}}</p>
                                 <p>due date : {{x.due_date}}</p>
+                                {% if x.due_date < today and not x.task_status %}
+                                    <h4><i class="fa-solid fa-bell" style="color: #ff0000;"></i></h4>
+                                {% endif %}
                             </div>
                             
+
                         </div>
                         <div class="d-flex flex-column align-items-end gap-3">
                             {% if x.task_status %}
                                 <button class="bg-success p-3 rounded-5 border-0 text-white pt-1 pb-1">Completed</button>
                             {% else %}
                                 <button class="bg-danger p-3 rounded-5 border-0 text-white pt-1 pb-1">Pending</button>
+                                
+                                
+
                             {% endif %}
-                            <a href="{% url 'update_todo' x.id %}"><button class="bg-info p-3 rounded-5 border-0 text-white pt-1 pb-1"><i class="fa-solid fa-pen" style="color: #ffffff;"></i>  Update</button></a>
+                            <a href="{% url 'update_todo' x.id %}"><button class="bg-info p-3 rounded-5 border-0 text- hite pt-1 pb-1"><i class="fa-solid fa-pen" style="color: #ffffff;"></i>  Update</button></a>
                             <a href="{% url 'delete' x.id %}"><button class="bg-info p-3 rounded-5 border-0 text-white pt-1 pb-1"><i class="fa-solid fa-eraser" style="color: #fafcff;"></i>  Delete</button></a>
+                            
+                            
                         </div>
                     </li>
                     
