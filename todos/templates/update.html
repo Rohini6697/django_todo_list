@@ -22,6 +22,9 @@
         </div>
         <input type="text" name="description" value="{{todo.description}}" class="w-75 border border-top-0 border-end-0 border-start-0 border-bottom border-1 border-primary">
         <div class="w-75 d-flex flex-column">
+            {% if error %}
+                <p class="text-danger">{{error}}</p>
+            {% endif %}
             <label>Due Date : </label>
             
         </div>
