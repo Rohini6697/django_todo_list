@@ -48,18 +48,38 @@ def update_todo(request,id):
     if request.method == 'POST':
         tasks = request.POST.get('task')
         description = request.POST.get('description')
-        due_date = request.POST.get('due')
+        due_date_str = request.POST.get('due')
         # due_date = due_date if due_date else None
         status = 'status' in request.POST        
+       
+        due_date=None
+        today = date.today()
+        if due_date_str:
+            due_date = datetime.strptime(due_date_str,'%Y-%m-%d').date()
+            if due_date < today:
+                return render(request,'update.html',{'error':'that date already over'},)#'todo': todo,'task_value': tasks,'description_value': description,'due_value': due_date_str#
+
+
+
+
+
+        # due_date = None
+        # if due_date_str:
+        #     due_date = datetime.strptime(due_date_str,'%Y-%m-%d').date()
+        #     today = date.today()
+        #     if due_date < today:
+        #         return render(request,'add.html',{'error':'that date already over'})
+
+
+
+        
+            
+
+
         todo.task = tasks
         todo.description = description
         todo.due_date = due_date
         todo.task_status = status
-        today = date.today()
-        if due_date:
-            new_due_date = datetime.strptime(due_date,'%Y-%m-%d').date()
-            if new_due_date < today:
-                return render(request,'add.html',{'error':'that date already over'})
         todo.save()
         return redirect('home')
     return render(request,'update.html',{'todo':todo})

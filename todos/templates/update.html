@@ -30,7 +30,7 @@
         </div>
         <input type="date" name="due" value="{{todo.due_date|date:'Y-m-d'}}" class="w-75 border border-top-0 border-end-0 border-start-0 border-bottom border-1 border-primary">
         <div class="d-flex align-items-center gap-2">
-            <input type="checkbox" name="status" value="{{todo.task_status}}" ><label>completed</label>
+            <input type="checkbox" name="status" {% if todo.task_status %} checked {% endif %}><label>completed</label>
         </div>
         <button class="w-25 bg-info rounded-5 border-0 text-white pt-1 pb-1">Submit</button>
         <a href="{% url 'home' %}"><button class="bg-primary p-2 rounded-5 border-0 text-white">Back to Home</button></a>

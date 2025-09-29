@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,23 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
-
+    <link rel="stylesheet" href="{% static 'theme.css' %}"/>
 
     <title>Document</title>
 </head>
 <body class="container">
-    <ul>
-        <div class="d-flex align-items-center justify-content-evenly mb-4 mt-4">
+    <div class="d-flex align-items-center justify-content-evenly mb-4 mt-4">
             <h1>TODOS</h1>
             <a href="{% url 'add' %}"><button class="bg-primary p-3 rounded-5 border-0 text-white pt-1 pb-1"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Add a New Todo</button></a>
+            <!-- <i class="fa-solid fa-moon fa-2xl" style="color: #000000;"></i> -->
+             <button id="theme-toggle"><i class="fa-solid fa-moon fa-2xl" style="color: #000000;"></i></button>
         </div>
         
-            <h3 class="mb-4">Pending Tasks : {{false}}</h3>
+    <h3 class="mb-4">Pending Tasks : {{false}}</h3>
+    <ul id="items-list" class="moveable">
+        
         
         <div>
-            <div class="d-flex align-items-center flex-column gap-5">
+            <div id="todo-list" class="d-flex align-items-center flex-column gap-5" >
                 {% for x in todo_events %}
-                    <li class="d-flex align-items-center justify-content-between border  rounded-5 border-3 border-primary p-4 w-75">
+                    <li class="todo-item d-flex align-items-center justify-content-between border  rounded-5 border-3 border-primary p-4 w-75" draggable="true" ondragstart="dragit(event)" ondragover="dragover(event)">
                         <div>
                             <h3>{{x.task}}</h3>
                             <p>{{x.description}}</p>
@@ -58,4 +62,54 @@
     </ul>
     
 </body>
+<script>
+    const toggleBtn = document.getElementById("theme-toggle");
+    const body = document.body;
+    if (localStorage.getItem("theme") === "dark") {
+        body.setAttribute("data-bs-theme", "dark");
+        toggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+        toggleBtn.classList.remove("btn-outline-dark");
+        toggleBtn.classList.add("btn-outline-light");
+    
+    }else {
+        body.setAttribute("data-bs-theme", "light");
+        toggleBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+        toggleBtn.classList.remove("btn-outline-light");
+        toggleBtn.classList.add("btn-outline-dark");
+    }
+    toggleBtn.addEventListener("click", () => {
+        if (body.getAttribute("data-bs-theme") === "light") {
+            body.setAttribute("data-bs-theme", "dark");
+            localStorage.setItem("theme", "dark");
+            toggleBtn.innerHTML = ' <i class="fa-solid fa-sun"></i>';
+            toggleBtn.classList.remove("btn-outline-dark");
+            toggleBtn.classList.add("btn-outline-light");
+        } else {
+            body.setAttribute("data-bs-theme", "light");
+            localStorage.setItem("theme", "light");
+            toggleBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+            toggleBtn.classList.remove("btn-outline-light");
+            toggleBtn.classList.add("btn-outline-dark");
+        }
+    });
+    let shadow
+    function dragit(event){
+        shadow=event.target.closest('li');
+    }
+    function dragover(e){
+    e.preventDefault();
+    let targetLi = e.target.closest('li');
+    if (!targetLi || targetLi === shadow) return; 
+
+    let list = targetLi.parentNode;
+    let children = Array.from(list.children);
+
+    if (children.indexOf(targetLi) > children.indexOf(shadow)) {
+        list.insertBefore(shadow, targetLi.nextSibling);
+    } else {
+        list.insertBefore(shadow, targetLi);
+    }
+}
+
+</script>
 </html>
